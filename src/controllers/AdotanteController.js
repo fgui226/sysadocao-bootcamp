@@ -1,60 +1,60 @@
 import { prismaClient } from "../database/PrismaCliente.js"
 
-export class ClienteController {
+export class AdotanteController {
 
-    async getClientes (request, response) {
+    async getAdotantes (request, response) {
         try {
-            const clientes = await prismaClient.clientes.findMany();
-            return response.status(200).json(clientes);
+            const adotantes = await prismaClient.adotante.findMany();
+            return response.status(200).json(adotantes);
         } catch (error) {
             return response.status(500).json({ error: error.message });
         }
     }
 
-    async getClienteById (request, response) {
+    async getAdotanteById (request, response) {
         const { id } = request.params;
         try {
-            const cliente = await prismaClient.clientes.findUnique({
+            const adotante = await prismaClient.adotante.findUnique({
                 where: { id }
             })
-            return response.status(200).json(cliente);
+            return response.status(200).json(adotante);
         } catch (error) {
             return response.status(500).json({ error: error.message });
         }
     }
 
-    async postCliente (request, response) {
-        const { nome, email, telefone } = request.body;
+    async postAdotante (request, response) {
+        const { email, nome, endereco, telefone } = request.body;
         try {
-            const cliente = await prismaClient.clientes.create({
-                data: {nome, email, telefone}
+            const adotante = await prismaClient.adotante.create({
+                data: {email, nome, endereco, telefone}
             })
-            return response.status(201).json(cliente);
+            return response.status(201).json(adotante);
         } catch (error) {
             return response.status(500).json({ error: error.message });
         }
     }
 
-    async putCliente (request, response) {
+    async putAdotante (request, response) {
         const { id } = request.params;
-        const { nome, email, telefone } = request.body;
+        const { email, nome, endereco, telefone } = request.body;
         try {
-            const cliente = await prismaClient.clientes.update({
+            const adotante = await prismaClient.adotante.update({
                 data: {
-                    nome, email, telefone
+                    email, nome, endereco, telefone
                 },
                 where: { id }
             })
-            return response.status(200).json(cliente);
+            return response.status(200).json(adotante);
         } catch (error) {
             return response.status(500).json({ error: error.message });
         }
     }
 
-    async deleteCliente (request, response) {
+    async deleteAdotante (request, response) {
         const { id } = request.params;
         try {
-            await prismaClient.clientes.delete({
+            await prismaClient.adotante.delete({
                 where: { id }
             })
             return response.status(200).json({ message: 'Cliente excluído com sucesso' });
